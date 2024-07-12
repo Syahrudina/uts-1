@@ -46,7 +46,7 @@ class _AddMedicationState extends State<AddMedication> {
   void _showSuccessSnackbar(BuildContext context, String message) {
     final snackBar = SnackBar(
       content: Text(message),
-      backgroundColor: Colors.green,
+      backgroundColor: Colors.blue,
       duration: const Duration(seconds: 3),
     );
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -197,35 +197,38 @@ class _AddMedicationState extends State<AddMedication> {
                         itemCount: _keterangan.length,
                         itemBuilder: (context, index) {
                           return Padding(
-                            padding: const EdgeInsets.only(
-                                right: 8.0), 
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                elevation: 0,
-                                backgroundColor: _selectedIndex == index
-                                    ? const Color.fromARGB(255, 208, 207, 207)
-                                    : const Color.fromARGB(255, 251, 251, 251),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(25),
+                            padding: const EdgeInsets.only(right: 7.0),
+                            child: SizedBox(
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 0,
+                                  backgroundColor: _selectedIndex == index
+                                      ? const Color.fromARGB(255, 208, 207, 207)
+                                      : const Color.fromARGB(
+                                          255, 251, 251, 251),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(25),
+                                  ),
+                                  shadowColor: Colors
+                                      .transparent, // Hilangkan efek hover
                                 ),
-                                shadowColor:
-                                    Colors.transparent, // Hilangkan efek hover
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _pilihan = _keterangan[index];
-                                  _selectedIndex = index;
-                                });
-                              },
-                              child: Text(
-                                _keterangan[index],
-                                style: GoogleFonts.inter(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 18,
-                                  height: 1.2,
-                                  color: _selectedIndex == index
-                                      ? Colors.black
-                                      : Colors.grey,
+                                onPressed: () {
+                                  setState(() {
+                                    _pilihan = _keterangan[index];
+                                    _selectedIndex = index;
+                                  });
+                                },
+                                child: Text(
+                                  textAlign: TextAlign.center,
+                                  _keterangan[index],
+                                  style: GoogleFonts.inter(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15,
+                                    height: 1.2,
+                                    color: _selectedIndex == index
+                                        ? Colors.black
+                                        : Colors.grey,
+                                  ),
                                 ),
                               ),
                             ),
