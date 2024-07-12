@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "945124878596",
+    "project_id": "medicine-acf45",
+    "storage_bucket": "medicine-acf45.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:945124878596:android:3970b669efd9c0a0d04851",
+        "android_client_info": {
+          "package_name": "com.example.flutter_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAE5hwmv9zKss92xy3kEv2bzWOoIjyDSMU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
