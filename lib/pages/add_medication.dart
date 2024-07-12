@@ -121,7 +121,7 @@ class _AddMedicationState extends State<AddMedication> {
                                   } else if (index == 2) {
                                     _namaObat.text = "Sirup";
                                   } else if (index == 3) {
-                                    _namaObat.text = "Asma";
+                                    _namaObat.text = "Inhaler";
                                   }
                                 });
                               },
@@ -191,41 +191,47 @@ class _AddMedicationState extends State<AddMedication> {
                     height: 30.0,
                   ),
                   SizedBox(
-                    height: 50,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: _keterangan.length,
-                      itemBuilder: (context, index) {
-                        return ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              elevation: 0,
-                              backgroundColor: _selectedIndex == index
-                                  ? const Color.fromARGB(255, 208, 207, 207)
-                                  : const Color.fromARGB(255, 251, 251, 251),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(25),
+                      height: 50,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: _keterangan.length,
+                        itemBuilder: (context, index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(
+                                right: 8.0), // Gap kanan dan kiri
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                elevation: 0,
+                                backgroundColor: _selectedIndex == index
+                                    ? const Color.fromARGB(255, 208, 207, 207)
+                                    : const Color.fromARGB(255, 251, 251, 251),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(25),
+                                ),
+                                shadowColor:
+                                    Colors.transparent, // Hilangkan efek hover
+                              ),
+                              onPressed: () {
+                                setState(() {
+                                  _pilihan = _keterangan[index];
+                                  _selectedIndex = index;
+                                });
+                              },
+                              child: Text(
+                                _keterangan[index],
+                                style: GoogleFonts.inter(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 18,
+                                  height: 1.2,
+                                  color: _selectedIndex == index
+                                      ? Colors.black
+                                      : Colors.grey,
+                                ),
                               ),
                             ),
-                            onPressed: () {
-                              setState(() {
-                                _pilihan = _keterangan[index];
-                                _selectedIndex = index;
-                              });
-                            },
-                            child: Text(
-                              _keterangan[index],
-                              style: GoogleFonts.inter(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 20,
-                                height: 1.2,
-                                color: _selectedIndex == index
-                                    ? Colors.black
-                                    : Colors.grey,
-                              ),
-                            ));
-                      },
-                    ),
-                  ),
+                          );
+                        },
+                      )),
                   const SizedBox(height: 40),
                   SizedBox(
                     width: double.infinity,
