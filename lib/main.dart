@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/firebase_options.dart';
 import 'package:flutter_app/pages/add_medication.dart';
 // ignore: unused_import
-import 'package:flutter_app/pages/add_medication_1.dart';
+import 'package:flutter_app/pages/list_medication.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

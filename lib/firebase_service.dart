@@ -32,8 +32,8 @@ class FirebaseService {
     documentReference.delete();
   }
 
-  void ubah(Obat obat) {
-    DocumentReference documentReference = useRef.doc(obat.nama);
-    documentReference.update(obat.toJson());
-  }
+  // void ubah(Obat obat) {
+  //   DocumentReference documentReference = useRef.doc(obat.nama);
+  //   documentReference.update(obat.toJson());
+  // }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_app/firebase_service.dart';
 import 'package:flutter_app/obat_model.dart';
-import 'package:flutter_app/pages/add_medication_1.dart';
+import 'package:flutter_app/pages/list_medication.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AddMedication extends StatefulWidget {
