@@ -1,216 +1,299 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
-import 'package:flutter_svg/flutter_svg.dart';
-// ignore: unused_import
-import 'package:flutter_app/utils.dart';
+import 'package:flutter_app/firebase_service.dart';
+import 'package:flutter_app/obat_model.dart';
+import 'package:flutter_app/pages/add_medication_1.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'add_medication_1.dart';
 
-class AddMedication extends StatelessWidget {
+class AddMedication extends StatefulWidget {
+  const AddMedication({super.key});
+
+  @override
+  State<AddMedication> createState() => _AddMedicationState();
+}
+
+class _AddMedicationState extends State<AddMedication> {
+  FirebaseService firebaseService = FirebaseService();
+  final List<String> _images = [
+    'assets/images/pill_01_v_1_w_1.png',
+    'assets/images/caps_79_dsddssd_1.png',
+    'assets/images/amp_022.png',
+    'assets/images/ing_2.png',
+  ];
+  final List<String> _keterangan = [
+    'nevermind',
+    'after meal',
+    'before meal',
+  ];
+
+  String _pilihan = 'nevermind';
+  int _selectedIndex = 0;
+
+  bool isLoading = false;
+  bool _isButtonDisabled = true;
+
+  final TextEditingController _namaObat = TextEditingController();
+  final TextEditingController _dosis = TextEditingController();
+
+  void _showErrorSnackbar(BuildContext context, String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.red,
+      duration: const Duration(seconds: 3),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _showSuccessSnackbar(BuildContext context, String message) {
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: Colors.green,
+      duration: const Duration(seconds: 3),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void _validateForm() {
+    setState(() {
+      _isButtonDisabled = _namaObat.text.isEmpty || _dosis.text.isEmpty;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _namaObat.addListener(_validateForm);
+    _dosis.addListener(_validateForm);
+  }
+
+  @override
+  void dispose() {
+    _namaObat.removeListener(_validateForm);
+    _dosis.removeListener(_validateForm);
+    _namaObat.dispose();
+    _dosis.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Color(0xFFFFFFFF),
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
       ),
-      child: SingleChildScrollView(
-        // Tambahkan SingleChildScrollView untuk mengatasi overflow
+      body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.fromLTRB(18.5, 56.1, 18.5, 44),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 10), // Tambahkan jarak atas
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          decoration: const BoxDecoration(
+            color: Color(0xFFFFFFFF),
+          ),
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    width: 30, // Sesuaikan ukuran container
-                    height: 30, // Sesuaikan ukuran container
-                    child: SvgPicture.asset(
-                      'assets/vectors/vector_4_x2.svg',
-                    ),
-                  ),
-                  Container(
-                    width: 30, // Sesuaikan ukuran container
-                    height: 30, // Sesuaikan ukuran container
-                    child: SvgPicture.asset(
-                      'assets/vectors/vector_3_x2.svg',
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20), // Tambahkan jarak antara elemen
-              Text(
-                '1 is 2',
-                style: GoogleFonts.getFont(
-                  'Roboto Condensed',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16,
-                  height: 1.3,
-                  color: Color(0xFF8C8E97),
-                ),
-              ),
-              SizedBox(height: 10), // Tambahkan jarak antara elemen
-              Text(
-                'Add medication',
-                style: GoogleFonts.getFont(
-                  'Roboto Condensed',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 24,
-                  height: 1.1,
-                  letterSpacing: -0.4,
-                  color: Color(0xFF191D30),
-                ),
-              ),
-              SizedBox(height: 20), // Tambahkan jarak antara elemen
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      width: 100, // Sesuaikan ukuran container
-                      height: 100, // Sesuaikan ukuran container
-                      child: Image.asset(
-                        'assets/images/pill_01_v_1_w_1.png',
-                        fit: BoxFit.cover, // Sesuaikan ukuran gambar
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 20), // Tambahkan jarak antara elemen
-                  Expanded(
-                    child: Container(
-                      width: 100, // Sesuaikan ukuran container
-                      height: 100, // Sesuaikan ukuran container
-                      child: Image.asset(
-                        'assets/images/caps_79_dsddssd_1.png',
-                        fit: BoxFit.cover, // Sesuaikan ukuran gambar
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 20), // Tambahkan jarak antara elemen
-                  Expanded(
-                    child: Container(
-                      width: 100, // Sesuaikan ukuran container
-                      height: 100, // Sesuaikan ukuran container
-                      child: Image.asset(
-                        'assets/images/amp_022.png',
-                        fit: BoxFit.cover, // Sesuaikan ukuran gambar
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 20), // Tambahkan jarak antara elemen
-                  Expanded(
-                    child: Container(
-                      width: 100, // Sesuaikan ukuran container
-                      height: 100, // Sesuaikan ukuran container
-                      child: Image.asset(
-                        'assets/images/ing_2.png',
-                        fit: BoxFit.cover, // Sesuaikan ukuran gambar
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20), // Tambahkan jarak antara elemen
-              Text(
-                'Omega 3',
-                style: GoogleFonts.getFont(
-                  'Roboto Condensed',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
-                  height: 1.2,
-                  color: Color(0xFF191D30),
-                ),
-              ),
-              SizedBox(height: 10), // Tambahkan jarak antara elemen
-              Text(
-                'Single dose, e.g. 1 tablet',
-                style: GoogleFonts.getFont(
-                  'Roboto Condensed',
-                  fontWeight: FontWeight.w700,
-                  fontSize: 20,
-                  height: 1.2,
-                  color: Color(0xFFC4CACF),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 20), // Tambahkan jarak antara elemen
                   Text(
-                    'Before meals',
-                    style: GoogleFonts.getFont(
-                      'Roboto Condensed',
+                    'Add medication',
+                    style: GoogleFonts.inter(
                       fontWeight: FontWeight.w700,
+                      fontSize: 24,
+                      height: 1.1,
+                      letterSpacing: -0.4,
+                      color: const Color(0xFF191D30),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: 120,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: _images.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (index == 0) {
+                                    _namaObat.text = "Pil";
+                                  } else if (index == 1) {
+                                    _namaObat.text = "Kapsul";
+                                  } else if (index == 2) {
+                                    _namaObat.text = "Sirup";
+                                  } else if (index == 3) {
+                                    _namaObat.text = "Asma";
+                                  }
+                                });
+                              },
+                              child: Container(
+                                width: 100,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Image.asset(
+                                  _images[index],
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  TextFormField(
+                    style: GoogleFonts.inter(
+                      fontWeight: FontWeight.w600,
                       fontSize: 20,
                       height: 1.2,
-                      color: Color(0xFFC4CACF),
+                      color: Colors.black,
                     ),
-                  ),
-                  SizedBox(height: 10), // Tambahkan jarak antara elemen
-                  Container(
-                    width: 145, // Sesuaikan ukuran container
-                    padding: EdgeInsets.fromLTRB(20, 7, 20, 9),
-                    decoration: BoxDecoration(
-                      color: Color(0xFFF2F6F7),
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: Text(
-                      'After meals',
-                      style: GoogleFonts.getFont(
-                        'Roboto Condensed',
-                        fontWeight: FontWeight.w700,
+                    controller: _namaObat,
+                    decoration: InputDecoration(
+                      hintText: 'Name',
+                      hintStyle: GoogleFonts.inter(
+                        fontWeight: FontWeight.w600,
                         fontSize: 20,
                         height: 1.2,
-                        color: Color(0xFF191D30),
+                        color: Colors.grey,
                       ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.zero,
+                      isDense: true,
                     ),
                   ),
-                  SizedBox(height: 10), // Tambahkan jarak antara elemen
-                  Text(
-                    'With food',
-                    style: GoogleFonts.getFont(
-                      'Roboto Condensed',
-                      fontWeight: FontWeight.w700,
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  TextFormField(
+                    controller: _dosis,
+                    style: GoogleFonts.inter(
+                      fontWeight: FontWeight.w600,
                       fontSize: 20,
                       height: 1.2,
-                      color: Color(0xFFC4CACF),
+                      color: Colors.black,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: 'Single dose, e.g. 1 tablet',
+                      hintStyle: GoogleFonts.inter(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                        height: 1.2,
+                        color: Colors.grey,
+                      ),
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.zero,
+                      isDense: true,
                     ),
                   ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  SizedBox(
+                    height: 50,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _keterangan.length,
+                      itemBuilder: (context, index) {
+                        return ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              backgroundColor: _selectedIndex == index
+                                  ? const Color.fromARGB(255, 208, 207, 207)
+                                  : const Color.fromARGB(255, 251, 251, 251),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(25),
+                              ),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _pilihan = _keterangan[index];
+                                _selectedIndex = index;
+                              });
+                            },
+                            child: Text(
+                              _keterangan[index],
+                              style: GoogleFonts.inter(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                                height: 1.2,
+                                color: _selectedIndex == index
+                                    ? Colors.black
+                                    : Colors.grey,
+                              ),
+                            ));
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF1892FA),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                      ),
+                      onPressed: _isButtonDisabled
+                          ? null
+                          : () async {
+                              setState(() {
+                                isLoading = true;
+                              });
+
+                              Obat obat = Obat(
+                                  nama: _namaObat.text,
+                                  dosis: _dosis.text,
+                                  kondisi: _pilihan);
+                              bool hasil = false;
+                              try {
+                                hasil = await firebaseService.tambah(obat);
+                                _showSuccessSnackbar(
+                                    context, "behasil mengirim data");
+                              } catch (e) {
+                                _showErrorSnackbar(
+                                    context, 'gagal mengirim data');
+                              } finally {
+                                setState(() {
+                                  isLoading = false;
+                                });
+                              }
+
+                              print(hasil);
+
+                              if (hasil) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddMedication1()),
+                                );
+                              } else {
+                                _showErrorSnackbar(
+                                    context, 'gagal mengirim data');
+                              }
+                            },
+                      child: isLoading
+                          ? const CircularProgressIndicator(
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                            )
+                          : Text(
+                              'Add',
+                              style: GoogleFonts.inter(
+                                fontWeight: FontWeight.w600,
+                                fontSize: 20,
+                                height: 1.2,
+                                color: Colors.white,
+                              ),
+                            ),
+                    ),
+                  )
                 ],
               ),
-
-              SizedBox(height: 20),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => AddMedication1()),
-                  );
-                },
-                child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: 15),
-                  decoration: BoxDecoration(
-                    color: Color(0xFF1892FA),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'Next',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 16,
-                        height: 1.3,
-                        color: Color(0xFFFFFFFF),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       ),
