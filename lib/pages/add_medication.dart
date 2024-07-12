@@ -164,7 +164,7 @@ class _AddMedicationState extends State<AddMedication> {
                     ),
                   ),
                   const SizedBox(
-                    height: 30.0,
+                    height: 35.0,
                   ),
                   TextFormField(
                     controller: _dosis,
@@ -198,7 +198,7 @@ class _AddMedicationState extends State<AddMedication> {
                         itemBuilder: (context, index) {
                           return Padding(
                             padding: const EdgeInsets.only(
-                                right: 8.0), // Gap kanan dan kiri
+                                right: 8.0), 
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
                                 elevation: 0,
