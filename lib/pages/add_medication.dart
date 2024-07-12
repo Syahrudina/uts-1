@@ -268,7 +268,8 @@ class _AddMedicationState extends State<AddMedication> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => AddMedication1()),
+                                      builder: (context) =>
+                                          const ListMedication()),
                                 );
                               } else {
                                 _showErrorSnackbar(
